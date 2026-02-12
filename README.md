@@ -45,7 +45,6 @@ Instead of using static inference configurations, AEGIS:
 ## 🏗 Architecture Overview
 
 ```
-```
 Incoming Request
       │
       ▼
@@ -71,6 +70,7 @@ Logger + SQLite      ← persists every cycle's full record
       │
       ▼
 Live Dashboard       ← reads SQLite, visualizes in real-time
+
 ```
 All components are modular and observable.
 
@@ -78,6 +78,7 @@ All components are modular and observable.
 
 
 ## 📁 Project Structure
+
 
 
 ```
