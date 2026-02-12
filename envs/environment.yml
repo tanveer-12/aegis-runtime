@@ -182,7 +182,6 @@ dependencies:
       - pydantic-core==2.41.5
       - pydeck==0.9.1
       - pygments==2.19.2
-      - pynvml==13.0.1
       - pyparsing==3.3.2
       - pytest==9.0.2
       - pytest-cov==7.0.0
