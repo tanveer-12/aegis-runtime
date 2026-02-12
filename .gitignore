@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+
+# Conda / Virtual Envs
+.env
+.venv
+
+# Logs (keep structure, ignore content)
+logs/*.log
+
+# Large model files
+*.bin
+*.pt
+*.safetensors
+data/
+
+# Benchmark outputs (optional: remove if you want to track results)
+benchmarks/results/*.json
+benchmarks/results/plots/*.png
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# HuggingFace cache
+~/.cache/huggingface/
