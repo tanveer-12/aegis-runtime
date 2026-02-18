@@ -1,31 +1,22 @@
 # Python
 __pycache__/
-*.py[cod]
+*.pyc
+*.pyo
 *.egg-info/
-.eggs/
 
-# Conda / Virtual Envs
-.env
-.venv
+# Conda
+.conda/
 
-# Logs (keep structure, ignore content)
-logs/*.log
+# Logs — runtime artifacts, never committed
+aegis_runtime/logs/
+!aegis_runtime/logs/.gitkeep
 
-# Large model files
-*.bin
-*.pt
-*.safetensors
-data/
-
-# Benchmark outputs (optional: remove if you want to track results)
-benchmarks/results/*.json
-benchmarks/results/plots/*.png
-
-# Notebooks checkpoints
-.ipynb_checkpoints/
+# SQLite — experiment data, never in source control
+*.db
+*.sqlite
 
 # VS Code
 .vscode/
 
-# HuggingFace cache
-~/.cache/huggingface/
+# Environment secrets
+.env

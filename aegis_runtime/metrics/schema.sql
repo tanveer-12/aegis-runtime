@@ -1,0 +1,4 @@
+-- AEGIS Runtime — schema.sql
+-- Single source of truth for all SQLite table definitions.
+-- No table is created anywhere else in the codebase.
+-- Version: 2
