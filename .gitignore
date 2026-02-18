@@ -25,3 +25,6 @@ requirements-lock*.txt
 
 # Lock files are platform-specific
 requirements-lock*.txt
+
+# aegis-specification markdown
+AEGIS_SPECIFICATION.md
