@@ -29,6 +29,9 @@ dependencies:
   # Database
   - conda-forge::sqlite=3.46
 
+  # Config validation
+  - conda-forge::pydantic=2.12
+
   # Only use pip for packages not in conda
   - pip
   - pip:
