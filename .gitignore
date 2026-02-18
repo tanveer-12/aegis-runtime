@@ -20,3 +20,5 @@ aegis_runtime/logs/
 
 # Environment secrets
 .envenvironment-current-backup.yml
+
+requirements-lock*.txt
