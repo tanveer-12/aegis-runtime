@@ -22,3 +22,6 @@ aegis_runtime/logs/
 .envenvironment-current-backup.yml
 
 requirements-lock*.txt
+
+# Lock files are platform-specific
+requirements-lock*.txt
