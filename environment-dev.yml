@@ -1,0 +1,35 @@
+name: aegis
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  # Python
+  - python=3.11
+
+  # PyTorch with CUDA 12.1
+  - pytorch::pytorch=2.5.1
+  - pytorch::torchvision=0.20.1
+  - pytorch::torchaudio=2.5.1
+  - pytorch::pytorch-cuda=12.1
+
+  # Hugging Face ecosystem
+  - conda-forge::transformers=4.46
+  - conda-forge::datasets=3.2
+  - conda-forge::tokenizers=0.20
+
+  # GPU monitoring
+  - conda-forge::nvidia-ml-py=12.560.30
+
+  # Utilities
+  - conda-forge::tqdm=4.67
+  - conda-forge::pyyaml=6.0
+
+  # Database
+  - conda-forge::sqlite=3.46
+
+  # Only use pip for packages not in conda
+  - pip
+  - pip:
+    - accelerate==1.2.1

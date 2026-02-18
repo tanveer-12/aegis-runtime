@@ -19,4 +19,4 @@ aegis_runtime/logs/
 .vscode/
 
 # Environment secrets
-.env
+.envenvironment-current-backup.yml
