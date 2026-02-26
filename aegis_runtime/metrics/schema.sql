@@ -58,6 +58,10 @@ CREATE TABLE IF NOT EXISTS inference_cycles (
 
     -- Error Tracking
     oom_event BOOLEAN DEFAULT 0,        -- 1 if OOM occurred this cycle
+
+    -- Memory estimation (populated Week 3+)
+    estimated_memory_mb REAL,           -- Estimator's predicted peak memory
+    estimation_error_pct REAL,          -- (actual - estimated) / actual * 100
     FOREIGN KEY (trial_id) REFERENCES trials(trial_id)
 );
 
@@ -90,9 +94,39 @@ CREATE TABLE IF NOT EXISTS experiment_summary (
     successful_trials INTEGER NOT NULL,
     failed_trials INTEGER NOT NULL,
     
+    -- Estimation accuracy (populated Week 4+)
+    mean_estimation_error_pct REAL,     -- Mean error_pct across all cycles in experiment
+
     computed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    
+
     FOREIGN KEY (experiment_id) REFERENCES experiments(experiment_id)
+);
+
+
+CREATE TABLE IF NOT EXISTS estimation_log (
+    log_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    experiment_id TEXT NOT NULL,        -- Foreign key to experiments
+    trial_id TEXT NOT NULL,             -- Foreign key to trials
+    batch_size INTEGER NOT NULL,
+    seq_len INTEGER NOT NULL,
+    precision TEXT NOT NULL,            -- 'fp16', 'bf16', 'fp32'
+
+    -- Memory component breakdown (MB)
+    m_base_mb REAL NOT NULL,            -- Base model weights
+    m_params_mb REAL NOT NULL,          -- Parameter overhead
+    m_kv_cache_mb REAL NOT NULL,        -- KV cache footprint
+    m_activations_mb REAL NOT NULL,     -- Activation buffers
+    m_lm_head_mb REAL NOT NULL,         -- LM head output buffer
+
+    -- Estimation vs. actual
+    estimated_peak_mb REAL,             -- Sum of components
+    actual_peak_mb REAL,                -- Measured peak from device
+    error_pct REAL,                     -- (actual - estimated) / actual * 100
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (experiment_id) REFERENCES experiments(experiment_id),
+    FOREIGN KEY (trial_id) REFERENCES trials(trial_id)
 );
 
 
@@ -101,3 +135,5 @@ CREATE INDEX IF NOT EXISTS idx_trials_experiment ON trials(experiment_id);
 CREATE INDEX IF NOT EXISTS idx_cycles_trial ON inference_cycles(trial_id);
 CREATE INDEX IF NOT EXISTS idx_cycles_timestamp ON inference_cycles(timestamp);
 CREATE INDEX IF NOT EXISTS idx_trials_status ON trials(status);
+CREATE INDEX IF NOT EXISTS idx_estimation_log_experiment ON estimation_log(experiment_id);
+CREATE INDEX IF NOT EXISTS idx_estimation_log_batch_seq ON estimation_log(batch_size, seq_len);

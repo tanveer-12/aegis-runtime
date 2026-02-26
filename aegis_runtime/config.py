@@ -30,6 +30,8 @@ import hashlib
 import os
 from pathlib import Path
 
+from typing import Optional
+
 from pydantic import BaseModel, field_validator
 
 _ALLOWED_PRECISIONS = ("fp16", "bf16", "fp32")
@@ -65,6 +67,9 @@ class RuntimeConfig(BaseModel):
     max_seq_length: int = 256
     num_trials: int = 3
     random_seed_base: int = 42
+
+    # ── Runtime-populated (excluded from hash) ────────────────────────────────
+    total_gpu_memory_mb: Optional[float] = None
 
     # ── Storage paths ─────────────────────────────────────────────────────────
     # Default paths anchored to package root
@@ -153,5 +158,9 @@ class RuntimeConfig(BaseModel):
         regardless of field insertion order. This value is stored in the
         database as config_hash to detect parameter drift across trials.
         """
-        canonical = json.dumps(self.to_dict(), sort_keys=True)
+        exclude = {"total_gpu_memory_mb"}
+        canonical = json.dumps(
+            {k: v for k, v in self.to_dict().items() if k not in exclude},
+            sort_keys=True,
+        )
         return hashlib.md5(canonical.encode()).hexdigest()

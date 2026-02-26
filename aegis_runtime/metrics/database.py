@@ -187,3 +187,30 @@ class DatabaseManager:
                 (trial_id,)
             ).fetchall()
         return [dict(r) for r in rows]
+
+    def insert_estimation_log(self, log_data: Dict[str, Any]):
+        """Insert a single estimation log row."""
+        sql = """
+            INSERT INTO estimation_log (
+                experiment_id, trial_id, batch_size, seq_len, precision,
+                m_base_mb, m_params_mb, m_kv_cache_mb, m_activations_mb, m_lm_head_mb,
+                estimated_peak_mb, actual_peak_mb, error_pct
+            ) VALUES (
+                :experiment_id, :trial_id, :batch_size, :seq_len, :precision,
+                :m_base_mb, :m_params_mb, :m_kv_cache_mb, :m_activations_mb, :m_lm_head_mb,
+                :estimated_peak_mb, :actual_peak_mb, :error_pct
+            )
+        """
+        with self.get_connection() as conn:
+            conn.execute(sql, log_data)
+            conn.commit()
+        logger.debug("Inserted estimation log for trial %s", log_data["trial_id"])
+
+    def get_estimation_log(self, experiment_id: str) -> List[Dict[str, Any]]:
+        """Get all estimation log rows for an experiment, ordered by created_at."""
+        with self.get_connection() as conn:
+            rows = conn.execute(
+                "SELECT * FROM estimation_log WHERE experiment_id = ? ORDER BY created_at",
+                (experiment_id,)
+            ).fetchall()
+        return [dict(r) for r in rows]
