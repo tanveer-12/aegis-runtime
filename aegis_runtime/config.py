@@ -66,6 +66,7 @@ class RuntimeConfig(BaseModel):
     precision: str = "fp16"
     max_seq_length: int = 256
     num_trials: int = 3
+    num_cycles: int = 50
     random_seed_base: int = 42
 
     # ── Runtime-populated (excluded from hash) ────────────────────────────────
@@ -98,6 +99,13 @@ class RuntimeConfig(BaseModel):
     def _num_trials_positive(cls, v: int) -> int:
         if v <= 0:
             raise ValueError(f"num_trials must be > 0, got {v}")
+        return v
+
+    @field_validator("num_cycles")
+    @classmethod
+    def _num_cycles_positive(cls, v: int) -> int:
+        if v <= 0:
+            raise ValueError(f"num_cycles must be > 0, got {v}")
         return v
 
     @field_validator("precision")
