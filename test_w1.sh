@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-#SBATCH -A cs441
-#SBATCH -p academic
 #SBATCH -N 1
 #SBATCH -c 8
-#SBATCH --gres=gpu:1
-#SBATCH -C A30
+#SBATCH -p short                
+#SBATCH -t 12:00:00             
+#SBATCH --gres=gpu:2            
+#SBATCH -C "L40S"         
 #SBATCH -t 01:00:00
-#SBATCH --mem 20G
+#SBATCH --mem=20G
 #SBATCH --job-name=aegis_w1_test
 #SBATCH --output=/home/%u/aegis-data/logs/w1_test_%j.out
 #SBATCH --error=/home/%u/aegis-data/logs/w1_test_%j.err
