@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH -A cs541
+#SBATCH -A cs441
 #SBATCH -p academic
 #SBATCH -N 1
 #SBATCH -c 8
